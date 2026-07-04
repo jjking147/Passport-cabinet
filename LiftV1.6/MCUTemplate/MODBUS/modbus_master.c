@@ -42,8 +42,8 @@ void Modbus_Master_Receive(u8 data) // Modbus主机接受信号函数，接受�
 		if (Master_Rec_Count >= MODBUS_BUFF_LEN)
 		{
 			Master_Rec_Count = 0;
-			TIM_SetCounter(MODBUS_MASTER_TIM, 0); // 定时清理一下TIM的计数值，防止中断停止接受信号了
 		}
+		TIM_SetCounter(MODBUS_MASTER_TIM, 0); // 每收到一个字节都重置超时计数器
 	}
 }
 
