@@ -30,3 +30,7 @@ compile_commands.json
 
 # Windows
 Thumbs.db
+
+# 文档和固件库
+docs/
+GD32F4xx_Firmware_Library_V3.2.0/
