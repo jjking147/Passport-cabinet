@@ -1,0 +1,7 @@
+# 反忽略 Keil 工程文件, 使 .uvprojx 能被 git 跟踪
+# (根目录 .gitignore 默认忽略了 *.uvprojx / *.uvoptx)
+!*.uvprojx
+
+# 编译产物仍不提交 (其余继承根 .gitignore 的 OBJ/ *.hex *.axf *.o 等)
+*.uvoptx
+*.uvguix.*
