@@ -50,7 +50,7 @@ u8 ExecuteCommand_Handler(u16 *cmd)
 		}
 	}
 	memset(cmd, 0, 16);											// 找到之后直接清零
-	memcpy(&ParamShadow, &PARAM_REG, sizeof(ParamShadow_Type)); // 配置这个任务的参数
+	memcpy(&ParamShadow, &PARAM_REG, sizeof(ParamShadow_Type)); // 快照任务参数（触发前上位机已写入 PARAM_REG）
 
 	if (Current_Trigger == TRIG_MissionStart) // 一些需要判断并且回滚的情况
 	{
@@ -63,7 +63,7 @@ u8 ExecuteCommand_Handler(u16 *cmd)
 			return MODBUS_ERR_Busy;
 		}
 	}
-	if (Current_Trigger == TRIG_ClearFinishFlag && System_State != SYS_Finished)
+	if (Current_Trigger == TRIG_ClearFinishFlag && System_State != SYS_Finished) // TRIG_ClearFinishFlag 只能在 SYS_Finished 状态下清除
 	{
 		return MODBUS_ERR_Busy;
 	}

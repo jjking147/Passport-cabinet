@@ -52,7 +52,7 @@ static void WaitMotorStop(u16 span,u16 n)
 		{ 
 			throw(Failure_Timeout);
 		} 
-		if(Check_LimitTriggered())
+		if(Check_LimitTriggered()) // PC8/PC9 进行限位判断
 		{
 			Brake();
 			throw(Failure_Limit);
@@ -79,7 +79,7 @@ static void ZeroMove(u8 dir,u32 acc,u32 dece,u32 speed,s32 maxlen)
 		{		
 			if(zero_trigger_flag)
 			{
-				if(XIN(5) == SET)
+				if(XIN(5) == SET) // PC7 进行回零判断
 				{
 					if(TickSpan(zero_trigger_time) > 4)
 					{

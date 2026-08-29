@@ -5,7 +5,6 @@
 #include "modbus_slave.h"
 #include "timer.h"
 #include "jexception.h"
-
 #include "gpio.h"
 
 INIT_EXCEPTION_SYSTEM;

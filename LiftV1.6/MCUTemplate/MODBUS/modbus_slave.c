@@ -1,4 +1,4 @@
-#include "modbus_slave.h"
+﻿#include "modbus_slave.h"
 #include "config.h"
 #include "timer.h"
 #include "bll_main.h"
@@ -153,7 +153,7 @@ extern void BLL_Update(void);
 void ModBus_Pool(void)
 {
 	ModBusFailCode_Type errcode = MODBUS_OK;
-	if (MState == MODBUS_TIMEOUT)
+	if (MState == MODBUS_TIMEOUT) // TIMEOUT 表示一帧接收完毕
 	{
 		MState = MODBUS_HANDLING;
 		if (RecBuff[0] != MODBUS_ADDR) // 第一个字节是这个MODBUS从机的地址
@@ -170,7 +170,7 @@ void ModBus_Pool(void)
 			return;
 		}
 #endif
-		FUN_485_DIR(DIR_485_WRITEONLY); // nop不进行任何操作
+		FUN_485_DIR(DIR_485_WRITEONLY); // nop 不进行任何操作，延时进行 485 收发方向切换
 		switch (RecBuff[1])				// 第二个字节是要进行的操作
 		{
 		case 0x03:
@@ -190,7 +190,7 @@ void ModBus_Pool(void)
 	errorsend:
 		SendError(RecBuff[1], errcode);
 	end0:
-		MState = MODBUS_SENDING;
+		MState = MODBUS_SENDING; // 这里的 SENDING 指正在用 DMA 发送应答帧
 		FUN_485_DIR(DIR_485_READONLY);
 	}
 }
@@ -251,7 +251,7 @@ static void Handle_0x06(void) //
 		SendError(0x06, MODBUS_ERR_Reg);
 		return;
 	}
-	u16 *p_reg = (u16 *)Reg_Regions[region] + subaddr;
+	u16 *p_reg = (u16 *)Reg_Regions[region] + subaddr; // p_reg 就是指定寄存器的地址
 	if (region == 5)
 	{
 		u8 rt = ExecuteCommand_Handler((u16 *)Reg_Regions[5]); // 这个函数直接return 0
@@ -280,7 +280,7 @@ static void Handle_0x10(void) // 对一个地址连续写入数据
 	}
 	u16 *p_reg = (u16 *)Reg_Regions[region] + subaddr;
 	u8 *p_buff = &RecBuff[7];
-	memcpy(p_reg, p_buff, len_byte);
+	memcpy(p_reg, p_buff, len_byte); // 对这个地址连续写入
 	if (region == 5)
 	{
 		u8 rt = ExecuteCommand_Handler((u16 *)Reg_Regions[5]);
