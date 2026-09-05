@@ -12,6 +12,7 @@ static CommonStateFlag_Type backzero_flag = CSF_Idel;//声明原来的状态
 extern volatile u8 has_zero_flag;
 extern volatile u8 last_target;
 extern volatile vu8 swtich_count;
+extern volatile u8 flyout_flag;	// bll_tocase.c
 
 #define BACK_ZERO_SPEED		60//  //60->30
 void BLL_BackZero_ClearFlag(void)
@@ -26,6 +27,12 @@ void BLL_BackZero_ClearFlag(void)
 		if(_retry++ >= n) \
 		{ \
 			*err = Failure_Timeout; \
+			goto label; \
+		} \
+		if(flyout_flag) \
+		{ \
+			Brake(); \
+			*err = Failure_FlyOut; \
 			goto label; \
 		} \
 		delay_ms(span); \

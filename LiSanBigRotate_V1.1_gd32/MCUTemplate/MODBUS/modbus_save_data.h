@@ -60,6 +60,7 @@ typedef enum FailureID_Type
 	Failure_Unsupported,
 	Failure_EStop = 0x10,
 	Failure_DataFault = 0x11,
+	Failure_FlyOut = 0x12,	// »¤ÕÕÍÑ³ö
 	Failure_PosLimit = 0x20,
 	Failure_Unknown = 0xF0
 }FailureID_Type;

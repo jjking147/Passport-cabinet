@@ -13,7 +13,8 @@ int FUN_MOTOR_STOP(void)
 
 int FUN_MOTOR_ABORT(void)
 {
-	return -1;
+	Brake();	// ½ô¼±ÖÆ¶¯
+	return ADAPTER_PLACEHOLD_VAL;
 }
 
 u8 BLL_Moter_AD_BackZero(u16 acce, s32 speed)

@@ -21,6 +21,7 @@ static vu8 slow_move_flag;
 static vu8 counter_dir = 0;
 static int speed_select;
 static const BitAction ELECTRIAL_LEVEL = Bit_SET;
+volatile u8 flyout_flag = 0;	// 护照脱出标志(EXTI3置位)
 
 //清除flag状态
 void BLL_ToCase_ClearFlag(void)
@@ -33,6 +34,7 @@ static void Clear_Manual_Flags(void)
 	swtich_flag = 0;
 	fast_move_flag = 0;
 	slow_move_flag = 0;
+	flyout_flag = 0;
 }
 
 #define WAIT_MOTOR_STOP(span,n,label)	{delay_ms(400); \
@@ -42,6 +44,12 @@ static void Clear_Manual_Flags(void)
 		if(_retry++ >= n) \
 		{ \
 			*err = Failure_Timeout; \
+			goto label; \
+		} \
+		if(flyout_flag) \
+		{ \
+			Brake(); \
+			*err = Failure_FlyOut; \
 			goto label; \
 		} \
 		delay_ms(span); \
@@ -218,6 +226,12 @@ FIX_GO:
 					WAIT_MOTOR_STOP(100,30000,die);	
 					goto die;
 				}
+				if(flyout_flag)
+				{
+					Brake();
+					*err = Failure_FlyOut;
+					goto die;
+				}
 				if(TickSpan(start) > fix_max_time)
 				{
 					Stop();
@@ -237,6 +251,12 @@ FIX_GO:
 					mydelay(FINAL_DELAY);
 					BLL_Motor_AD_RelativeMove(FINAL_OFFSET(M),20,20,FINAL_SPEED);
 					WAIT_MOTOR_STOP(100,30000,die);	
+					goto die;
+				}
+				if(flyout_flag)
+				{
+					Brake();
+					*err = Failure_FlyOut;
 					goto die;
 				}
 				if(TickSpan(start) > (fix_max_time*2))
@@ -310,5 +330,16 @@ void BLL_ToCase_EXTIHandler(void)
 				}		
 //			}
 		}	
+	}
+}
+
+
+/* ==== X2/PC3 护照脱出检测 ==== */
+void BLL_FlyOut_EXTIHandler(void)
+{
+	delay_us(100);
+	if(Read_Switch(2) == Bit_SET)
+	{
+		flyout_flag = 1;
 	}
 }

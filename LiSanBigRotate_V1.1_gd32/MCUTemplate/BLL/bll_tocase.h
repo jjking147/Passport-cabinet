@@ -6,6 +6,8 @@
 #include "config.h"
 #include "bll_main.h"
 
+void BLL_FlyOut_EXTIHandler(void);	// X2/PC3 护照脱出
+
 void BLL_ToCase_ClearFlag(void);
 void NVIC_Config(u8 num,u8);	//外部中断初始化	
 CommonStateFlag_Type BLL_ToCase_Execute(ParamShadow_Type params, u8 *err);

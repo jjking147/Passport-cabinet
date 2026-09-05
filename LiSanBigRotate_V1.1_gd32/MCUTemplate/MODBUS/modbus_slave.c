@@ -198,7 +198,14 @@ __weak u8 ExecuteCommand_Handler(u16* cmd)
 
 __weak void UpdateRawValue_Handler(u8 subaddr, u8 len)
 {
-
+	u16 *p_reg = (u16 *)&RAW_REG + subaddr;
+	if (subaddr >= 1 && subaddr <= 10)
+	{
+		for (u8 i = 0; i < len; i++)
+		{
+			p_reg[i] = Read_Switch(subaddr + i);
+		}
+	}
 }
 
 static void Handle_0x03(void)

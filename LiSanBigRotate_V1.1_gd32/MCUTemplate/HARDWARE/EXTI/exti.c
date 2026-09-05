@@ -2,6 +2,7 @@
 #include "delay.h" 
 #include "gpio.h"
 #include "bll_claw.h"
+extern void BLL_FlyOut_EXTIHandler(void);	// X2/PC3 护照脱出
 
 void NVIC_Config(u8 num, u8 edge)	
 {
@@ -121,6 +122,7 @@ void EXTI2_IRQHandler(void)
 void EXTI3_IRQHandler(void)
 {
     if (exti_interrupt_flag_get(EXTI_3) != RESET) {
+        BLL_FlyOut_EXTIHandler();
         exti_interrupt_flag_clear(EXTI_3); // 清除 LINE3 上的中断标志位
     }
 }

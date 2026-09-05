@@ -28,6 +28,7 @@ void BLL_Init_All(void)
 	GPIO_Config();
 //	IWDG_Init(4,500);
 	NVIC_Config(1,0);	//X1(PC2)遮挡=高电平, 改上升沿触发   这里传感器的触发条件需要根据实际情况进行调整
+	NVIC_Config(2,0);	//X2(PC3) 护照脱出检测, 上升沿
 	System_Inited = 1;
 }
 
