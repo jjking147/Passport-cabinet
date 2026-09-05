@@ -37,7 +37,7 @@ void BLL_BackZero_ClearFlag(void)
 		} \
 		delay_ms(span); \
 		_motor_sate = Check_Status();\
-	}while((_motor_sate & 0x03) != 0); \
+	}while((_motor_sate & 0x03) == 0x03); \
 }
 
 CommonStateFlag_Type BLL_BackZero_Execute(ParamShadow_Type params, u8 *err)

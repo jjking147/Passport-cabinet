@@ -54,7 +54,7 @@ static void Clear_Manual_Flags(void)
 		} \
 		delay_ms(span); \
 		_motor_sate = Check_Status(); \
-	}while((_motor_sate & 0x03) != 0);; \
+	}while((_motor_sate & 0x03) == 0x03);; \
 }
 
 void mydelay(u16 ms)
