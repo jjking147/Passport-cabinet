@@ -173,7 +173,7 @@ CommonStateFlag_Type BLL_ToCase_Execute(ParamShadow_Type params, u8 *err)
 		mydelay(FIX_DELAY);
 FIX_GO:
 		//Step3：判断位移模式结果，决定如何修正
-		if(Read_Switch(1) == Bit_RESET)
+		if(Read_Switch(1) == Bit_SET)	//遮挡=高电平
 		{
 //		if((Read_Switch(1) == Bit_RESET) && (swtich_count == params.Param1 * 2))
 			mydelay(FINAL_DELAY);
@@ -290,7 +290,7 @@ void BLL_ToCase_EXTIHandler(void)
 	{
 		delay_us(100);
 		
-		if(Read_Switch(1) == Bit_RESET)
+		if(Read_Switch(1) == Bit_SET)	//遮挡=高电平
 		{
 			
 			
