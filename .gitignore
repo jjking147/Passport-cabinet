@@ -54,3 +54,6 @@ Thumbs.db
 # 文档和固件库
 docs/
 GD32F4xx_Firmware_Library_V3.2.0/
+
+# 测试脚本
+LiSanBigRotate_V1.1_gd32/MCUTemplate/fly_out_detect/

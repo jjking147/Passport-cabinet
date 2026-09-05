@@ -118,7 +118,7 @@ void EXTI2_IRQHandler(void)
     }
 }
 
-// EXTI3 中断服务函数
+// EXTI3 中断服务函数 这里就是护照脱出的中断
 void EXTI3_IRQHandler(void)
 {
     if (exti_interrupt_flag_get(EXTI_3) != RESET) {
